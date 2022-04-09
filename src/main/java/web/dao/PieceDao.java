@@ -15,10 +15,9 @@ import static web.dao.DBConnector.getConnection;
 public class PieceDao {
 
     public void save(PieceDto pieceDto) {
-        final Connection connection = getConnection();
         final String sql = "insert into pieces (room_name, position, piece_type, piece_color) " +
                 "value (?, ?, ?, ?)";
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, pieceDto.getRoomName());
             statement.setString(2, pieceDto.getPosition());
@@ -32,12 +31,11 @@ public class PieceDao {
     }
 
     public PieceDto findByRoomNameAndPosition(String roomName, String position) {
-        final Connection connection = getConnection();
         final String sql = "select room_name, position, piece_type, piece_color " +
                 "from pieces " +
                 "where room_name=? and position=?";
 
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, roomName);
             statement.setString(2, position);
@@ -54,12 +52,11 @@ public class PieceDao {
     }
 
     public List<PieceDto> findAllPiecesByRoomName(String roomName) {
-        final Connection connection = getConnection();
         final String sql = "select room_name, position, piece_type, piece_color " +
                 "from pieces " +
                 "where room_name=?";
 
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, roomName);
             final ResultSet result = statement.executeQuery();
@@ -76,12 +73,11 @@ public class PieceDao {
     }
 
     public void update(String roomName, String previousPosition, String newPosition) {
-        final Connection connection = getConnection();
         final String sql = "update pieces " +
                 "set position=? " +
                 "where room_name=? and position=?";
 
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, newPosition);
             statement.setString(2, roomName);
@@ -94,11 +90,10 @@ public class PieceDao {
     }
 
     public void deleteByRoomNameAndPosition(String roomName, String position) {
-        final Connection connection = getConnection();
         final String sql = "delete from pieces " +
                 "where room_name=? and position=?";
 
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, roomName);
             statement.setString(2, position);

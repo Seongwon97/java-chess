@@ -13,10 +13,9 @@ import static web.dao.DBConnector.getConnection;
 public class GameDao {
 
     public void save(GameInfoDto gameDto) {
-        final Connection connection = getConnection();
         final String sql = "insert into game (room_name, turn_color) value (?, ?)";
 
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, gameDto.getRoomName());
             statement.setString(2, gameDto.getTurnColor());
@@ -31,11 +30,11 @@ public class GameDao {
     }
 
     public GameInfoDto findByRoomName(String roomName) {
-        final Connection connection = getConnection();
+
         final String sql = "select room_name, turn_color " +
                 "from game where room_name=?";
-        try {
-            PreparedStatement statement = getConnection().prepareStatement(sql);
+        try (Connection connection = getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, roomName);
             final ResultSet result = statement.executeQuery();
             if (!result.next()) {
@@ -49,11 +48,10 @@ public class GameDao {
     }
 
     public void update(GameInfoDto gameDto) {
-        final Connection connection = getConnection();
         final String sql = "update game " +
                 "set turn_color=? " +
                 "where room_name=?";
-        try {
+        try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, gameDto.getTurnColor());
             statement.setString(2, gameDto.getRoomName());
@@ -65,10 +63,9 @@ public class GameDao {
     }
 
     public void delete(String roomName) {
-        final Connection connection = getConnection();
         final String sql = "delete from game where room_name=?";
         PreparedStatement statement = null;
-        try {
+        try (Connection connection = getConnection()) {
             statement = connection.prepareStatement(sql);
             statement.setString(1, roomName);
             statement.execute();
