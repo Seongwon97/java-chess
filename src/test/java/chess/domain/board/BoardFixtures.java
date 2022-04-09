@@ -8,7 +8,7 @@ import java.util.Map;
 public class BoardFixtures {
 
     public static Board empty() {
-        return new Board(TestBoardGenerator.generate(new HashMap<>()));
+        return new Board(BoardGenerator.generate(new HashMap<>()));
     }
 
     public static Board initial() {
@@ -16,6 +16,6 @@ public class BoardFixtures {
     }
 
     public static Board create(Map<Point, Piece> pointPieces) {
-        return new Board(TestBoardGenerator.generate(pointPieces));
+        return new Board(BoardGenerator.generate(pointPieces));
     }
 }

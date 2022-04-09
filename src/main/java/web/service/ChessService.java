@@ -1,9 +1,6 @@
 package web.service;
 
-import chess.domain.board.Board;
-import chess.domain.board.InitialBoardGenerator;
-import chess.domain.board.LineNumber;
-import chess.domain.board.Point;
+import chess.domain.board.*;
 import chess.domain.game.Game;
 import chess.domain.piece.*;
 import web.dao.PieceDao;
@@ -63,19 +60,7 @@ public class ChessService {
         for (PieceDto piece : allPieces) {
             pointPieces.put(Point.of(piece.getPosition()), PieceConverter.convert(piece.getPieceType(), piece.getPieceColor()));
         }
-        for (int i = LineNumber.MAX; i >= LineNumber.MIN; i--) {
-            addEmptyPiecesEachLine(pointPieces, i);
-        }
-        return pointPieces;
-    }
-
-    private void addEmptyPiecesEachLine(Map<Point, Piece> pointPieces, int i) {
-        for (int j = LineNumber.MIN; j <= LineNumber.MAX; j++) {
-            Point point = Point.of(i, j);
-            if (!pointPieces.containsKey(point)) {
-                pointPieces.put(point, Empty.getInstance());
-            }
-        }
+        return BoardGenerator.generate(pointPieces);
     }
 
     public WebBoardDto move(MoveInfoDto moveInfo) {

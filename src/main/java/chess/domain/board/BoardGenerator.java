@@ -6,7 +6,7 @@ import chess.domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestBoardGenerator {
+public class BoardGenerator {
 
     public static Map<Point, Piece> generate(Map<Point, Piece> pointPieces) {
         Map<Point, Piece> custom = new HashMap<>(pointPieces);
